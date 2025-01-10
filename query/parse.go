@@ -107,6 +107,9 @@ func parseExpr(in []byte) (Q, int, error) {
 	b = b[len(tok.Input):]
 
 	text := string(tok.Text)
+
+	expr = RawConfig(RcNoArchived) // NoArchived as default, overwrite by setting "archived:yes"
+
 	switch tok.Type {
 	case tokCase:
 		switch text {
@@ -129,7 +132,6 @@ func parseExpr(in []byte) (Q, int, error) {
 		case "yes":
 			expr = RawConfig(RcOnlyArchived)
 		case "no":
-			expr = RawConfig(RcNoArchived)
 		default:
 			return nil, 0, fmt.Errorf("query: unknown archived argument %q, want {yes,no}", text)
 		}
